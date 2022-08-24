@@ -32,7 +32,9 @@ public class MyArrayList<E> {
     public void add(E element, int index) {
         boundsCheck(index);
         increaseCapacityIfNeeded();
-        System.arraycopy(elements, index, elements, index + 1, size - index);
+        for (int i = size; i >= index; i--) {
+            elements[i+1] = elements[i];
+        }
         elements[index] = element;
         size++;
     }
@@ -40,7 +42,11 @@ public class MyArrayList<E> {
     private void increaseCapacityIfNeeded() {
         if (size == elements.length) {
             capacity = (int) (elements.length * 1.5 + 1);
-            elements = Arrays.copyOf(elements, (int) (elements.length * 1.5 + 1));
+            E[] temp = (E[]) new Object[(int) (elements.length * 1.5 + 1)];
+            for (int i = 0; i < elements.length; i++) {
+                temp[i] = elements[i];
+            }
+            elements = temp;
         }
     }
 
@@ -70,7 +76,9 @@ public class MyArrayList<E> {
 
     private void delete(int index) {
         if (size - 1 > index) {
-            System.arraycopy(elements, index + 1, elements, index, size - 1 - index);
+            for (int i = index; i < size - 1; i++) {
+                elements[i] = elements[i+1];
+            }
         }
         elements[size-1] = null;
         size--;
