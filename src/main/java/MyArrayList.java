@@ -58,8 +58,22 @@ public class MyArrayList<E> {
     }
 
 
-    public void delete(E element) {
-        //TODO
+    public boolean delete(E element) {
+        for (int i = 0; i < size; i++) {
+            if (element.equals(elements[i])) {
+                delete(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void delete(int index) {
+        if (size - 1 > index) {
+            System.arraycopy(elements, index + 1, elements, index, size - 1 - index);
+        }
+        elements[size-1] = null;
+        size--;
     }
 
     public void sort() {
